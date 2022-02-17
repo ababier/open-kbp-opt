@@ -1,0 +1,5 @@
+wget --no-check-certificate -r https://utoronto-my.sharepoint.com/:u:/g/personal/a_babier_mail_utoronto_ca/ES6shYYSYw1AoLu2D66pNDMBfYWZkd1CrwLwTat5XKamSg?download=1 -O experiments-data.zip
+
+unzip experiments-data.zip
+
+rm experiments-data.zip

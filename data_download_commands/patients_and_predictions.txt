@@ -1,0 +1,9 @@
+wget --no-check-certificate -r https://utoronto-my.sharepoint.com/:u:/g/personal/a_babier_mail_utoronto_ca/ETz5x0o3PShNv9o-Q7w9trsBBhUquUEwCmAX0YYvBtvCCg?download=1 -O core-data.zip
+
+unzip core-data.zip
+
+rm core-data.zip
+
+
+
+
