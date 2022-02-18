@@ -2,14 +2,14 @@
 
 ![](pipeline.png)
 
-The _open-kbp-opt_ repository is part of our project OpenKBP-Opt, which is an extension of the [OpenKBP Grand Challenge](https://aapm.onlinelibrary.wiley.com/doi/pdfdirect/10.1002/mp.14845). This repository provides code and open data to reproduce the experiments from our paper, however, we encourage others to modify our experiments to extend this work.
+The _open-kbp-opt_ repository is part of the OpenKBP-Opt project, which is an extension of the [OpenKBP Grand Challenge](https://aapm.onlinelibrary.wiley.com/doi/pdfdirect/10.1002/mp.14845). This repository provides code and open data to reproduce the experiments from our paper, however, we encourage others to modify our experiments to extend this work.
 
 
 ## Citation
 
 Please use our paper as the citation for this dataset or code repository:
 
-A. Babier, R. Mahmood, B. Zhang, V.G.L. Alves, A.M. Barragán-Montero, J. Beaudry, C.E. Cardenas, Y. Chang, Z. Chen, J. Chun, K. Diaz, H.D. Eraso, E. Faustmann, S. Gaj, S. Gay, M. Gronberg, B. Guo, J. He, G. Heilemann, S. Hira, Y. Huang, F. Ji, D. Jiang, J.C.J. Giraldo, H. Lee, J. Lian, S. Liu, K. Liu, J. Marrugo, K. Miki, K. Nakamura, T. Netherton, D. Nguyen, H. Nourzadeh, A.F.I. Osman, Z. Peng, J.D.Q. Muñoz, C. Ramsl, D.J. Rhee, J.D. Rodriguez, H. Shan, J.V. Siebers, M.H. Soomro, K. Sun, A.U. Hoyos, C. Valderrama, R. Verbeek, E. Wang, S. Willems, Q. Wu, X. Xu, S. Yang, L. Yuan, S. Zhu, L. Zimmermann, K.L. Moore, T.G. Purdie, A.L. McNiven, T.C.Y. Chan, "[OpenKBP-Opt: An international and reproducible evaluation of 76 knowledge-based planning pipelines](https://arxiv.org/abs/2202.08303)," arXiv: , 2022.
+A. Babier, R. Mahmood, B. Zhang, V.G.L. Alves, A.M. Barragán-Montero, J. Beaudry, C.E. Cardenas, Y. Chang, Z. Chen, J. Chun, K. Diaz, H.D. Eraso, E. Faustmann, S. Gaj, S. Gay, M. Gronberg, B. Guo, J. He, G. Heilemann, S. Hira, Y. Huang, F. Ji, D. Jiang, J.C.J. Giraldo, H. Lee, J. Lian, S. Liu, K. Liu, J. Marrugo, K. Miki, K. Nakamura, T. Netherton, D. Nguyen, H. Nourzadeh, A.F.I. Osman, Z. Peng, J.D.Q. Muñoz, C. Ramsl, D.J. Rhee, J.D. Rodriguez, H. Shan, J.V. Siebers, M.H. Soomro, K. Sun, A.U. Hoyos, C. Valderrama, R. Verbeek, E. Wang, S. Willems, Q. Wu, X. Xu, S. Yang, L. Yuan, S. Zhu, L. Zimmermann, K.L. Moore, T.G. Purdie, A.L. McNiven, T.C.Y. Chan, "[OpenKBP-Opt: An international and reproducible evaluation of 76 knowledge-based planning pipelines](https://arxiv.org/abs/2202.08303)," arXiv:2202.08303 , 2022.
 
 
 # Table of Contents
