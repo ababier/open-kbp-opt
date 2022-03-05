@@ -9,7 +9,7 @@ The _open-kbp-opt_ repository is part of the OpenKBP-Opt project, which is an ex
 
 Please use our paper as the citation for this dataset or code repository:
 
-A. Babier, R. Mahmood, B. Zhang, V.G.L. Alves, A.M. Barragán-Montero, J. Beaudry, C.E. Cardenas, Y. Chang, Z. Chen, J. Chun, K. Diaz, H.D. Eraso, E. Faustmann, S. Gaj, S. Gay, M. Gronberg, B. Guo, J. He, G. Heilemann, S. Hira, Y. Huang, F. Ji, D. Jiang, J.C.J. Giraldo, H. Lee, J. Lian, S. Liu, K. Liu, J. Marrugo, K. Miki, K. Nakamura, T. Netherton, D. Nguyen, H. Nourzadeh, A.F.I. Osman, Z. Peng, J.D.Q. Muñoz, C. Ramsl, D.J. Rhee, J.D. Rodriguez, H. Shan, J.V. Siebers, M.H. Soomro, K. Sun, A.U. Hoyos, C. Valderrama, R. Verbeek, E. Wang, S. Willems, Q. Wu, X. Xu, S. Yang, L. Yuan, S. Zhu, L. Zimmermann, K.L. Moore, T.G. Purdie, A.L. McNiven, T.C.Y. Chan, "[OpenKBP-Opt: An international and reproducible evaluation of 76 knowledge-based planning pipelines](https://arxiv.org/abs/2202.08303)," arXiv:2202.08303 , 2022.
+A. Babier, R. Mahmood, B. Zhang, V.G.L. Alves, A.M. Barragán-Montero, J. Beaudry, C.E. Cardenas, Y. Chang, Z. Chen, J. Chun, K. Diaz, H.D. Eraso, E. Faustmann, S. Gaj, S. Gay, M. Gronberg, B. Guo, J. He, G. Heilemann, S. Hira, Y. Huang, F. Ji, D. Jiang, J.C.J. Giraldo, H. Lee, J. Lian, S. Liu, K. Liu, J. Marrugo, K. Miki, K. Nakamura, T. Netherton, D. Nguyen, H. Nourzadeh, A.F.I. Osman, Z. Peng, J.D.Q. Muñoz, C. Ramsl, D.J. Rhee, J.D. Rodriguez, H. Shan, J.V. Siebers, M.H. Soomro, K. Sun, A.U. Hoyos, C. Valderrama, R. Verbeek, E. Wang, S. Willems, Q. Wu, X. Xu, S. Yang, L. Yuan, S. Zhu, L. Zimmermann, K.L. Moore, T.G. Purdie, A.L. McNiven, T.C.Y. Chan, "[OpenKBP-Opt: An international and reproducible evaluation of 76 knowledge-based planning pipelines](https://arxiv.org/abs/2202.08303)," arXiv:2202.08303, 2022.
 
 
 # Table of Contents
@@ -106,12 +106,12 @@ open-kbp-opt-data
     pip3 install -r requirements.txt
     ```
 
-3. Download the data for _reference-plans_ and _paper-predictions_ directories (10.19 GB) from our [OneDrive](https://utoronto-my.sharepoint.com/:u:/g/personal/a_babier_mail_utoronto_ca/ETz5x0o3PShNv9o-Q7w9trsBBhUquUEwCmAX0YYvBtvCCg?download=1) **or** via the command below 
+3. Download the data for _reference-plans_ and _paper-predictions_ directories (10.19 GB) from our [OneDrive](https://onedrive.live.com/download?cid=2150C5A213E729E3&resid=2150C5A213E729E3%21111&authkey=ADPFvxMczc2uPy8) **or** via the command below 
    ```
    sh data_download_commands/patients_and_predictions.txt
    ```
    
-4. __Optional__:  Download the data for _paper-plans_, _results-data_, and _results_ directories (13.08 GB) from our [OneDrive](https://utoronto-my.sharepoint.com/:u:/g/personal/a_babier_mail_utoronto_ca/EbupQyC0cDJDvzUdkNe-g5sBCGbM_Uma5A28F2M0ldJ0ig?download=1) **or** via the command below 
+4. __Optional__:  Download the data for _paper-plans_, _results-data_, and _results_ directories (13.08 GB) from our [OneDrive](https://onedrive.live.com/download?cid=2150C5A213E729E3&resid=2150C5A213E729E3%21112&authkey=AOZCC_VhkeboAss) **or** via the command below 
    ```
    sh data_download_commands/kbp_plans_and_results.txt
    ```

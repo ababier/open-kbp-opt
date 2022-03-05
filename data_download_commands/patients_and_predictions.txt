@@ -1,4 +1,4 @@
-wget --no-check-certificate -r https://utoronto-my.sharepoint.com/:u:/g/personal/a_babier_mail_utoronto_ca/ETz5x0o3PShNv9o-Q7w9trsBBhUquUEwCmAX0YYvBtvCCg?download=1 -O core-data.zip
+wget --no-check-certificate -r https://onedrive.live.com/download?cid=2150C5A213E729E3&resid=2150C5A213E729E3%21111&authkey=ADPFvxMczc2uPy8 -O core-data.zip
 
 unzip core-data.zip
 
