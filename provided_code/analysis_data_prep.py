@@ -6,7 +6,7 @@ import os
 import pandas as pd
 from scipy.stats import spearmanr, wilcoxon
 
-from constants_class import ModelParameters
+from provided_code.constants_class import ModelParameters
 from provided_code.data_loader import DataLoader
 from provided_code.dose_evaluation_class import EvaluateDose
 from provided_code.general_functions import get_paths, get_predictions_to_optimize
