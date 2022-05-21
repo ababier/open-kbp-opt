@@ -26,6 +26,7 @@ def make_dvh_metric_diff_plots(df_dvh_metrics: pd.DataFrame, constants: ModelPar
     sns.reset_defaults()
     # Iterate through each type of DVH metric (e.g., D_mean, D_99)
     for m in df_to_plot.index.unique():
+        constants.reset_plot_fonts()
         data_to_plot = df_to_plot.loc[m].copy(deep=True)
         data_to_plot.replace(constants.structure_printing, inplace=True)
         data_to_plot.replace(constants.optimization_short_hands_dict, inplace=True)
@@ -42,12 +43,12 @@ def make_dvh_metric_diff_plots(df_dvh_metrics: pd.DataFrame, constants: ModelPar
         # Prepare data (split on OAR and target criteria)
         if m in ['mean', 'D_0.1_cc']:  # OAR criteria
             limits = [-45, 12]
-            plt.figure(figsize=(constants.line_width / 1.5, 4.5))
+            plt.figure(figsize=(constants.line_width / 2.06, 3))
             structure_order = constants.rois_plotting_order['oars']
             plt.xticks(np.arange(-40, 11, 10))
 
         else:  # Target criteria
-            plt.figure(figsize=(constants.line_width / 2.25, 2.5))
+            plt.figure(figsize=(constants.line_width / 3.15, 1.735))
             limits = [-10.25, 8]
             structure_order = constants.rois_plotting_order['targets']
             plt.xticks(np.arange(-10, 6, 5))
@@ -102,6 +103,9 @@ def make_criteria_satisfaction_plots(names_to_rank: pd.Series, df_dvh_error_to_p
         file_name_prefix: prefix for file to save plot in
         constants: model constants
     """
+
+    constants.reset_plot_fonts()
+
     # Convert model names to ranking
     number_of_ranks = len(names_to_rank)
     rank_to_names = pd.Series(index=names_to_rank.values, data=names_to_rank.index)
@@ -121,7 +125,7 @@ def make_criteria_satisfaction_plots(names_to_rank: pd.Series, df_dvh_error_to_p
     df_to_plot.loc[:, 'Prediction'] = df_to_plot['Prediction'].apply(str)
 
     # Prepare figure to plot
-    plt.figure(figsize=(constants.line_width / 1.25, 3))
+    plt.figure(figsize=(constants.line_width, 2))
     plt.axhline(reference_satisfaction, ls='--', color='black', linewidth=1, zorder=-1)
     df_grouped = df_to_plot.groupby(['Prediction', 'Dose_type']).mean().reset_index()
     df_grouped.value *= 100
@@ -138,10 +142,11 @@ def make_criteria_satisfaction_plots(names_to_rank: pd.Series, df_dvh_error_to_p
                     facecolor='grey', alpha=0.15)
 
     # Format plot
-    plt.ylim((22.5, 92.5))
+    plt.ylim((22, 92.5))
     plt.xlim((-0.6, number_of_ranks - 0.4))  # Put some padding between edge bins
     plt.ylabel(f'Satisfied criteria (%)')
     plt.xlabel(f'Dose score rank')
+    plt.yticks(np.arange(30, 91, step=10))
     save_plot(constants, f'{file_name_prefix}-criteria',
               legend_cols=len(constants.optimization_short_hands_dict.values()))
 
@@ -166,6 +171,8 @@ def make_opt_error(cs: ModelParameters, df_dose_error: pd.DataFrame, plotted_err
         xlim: range on x-axis
     """
 
+    cs.reset_plot_fonts()
+
     # Prepare data to plot
     df_to_plot = df_dose_error.unstack(0).T.unstack(0)
 
@@ -186,7 +193,7 @@ def make_opt_error(cs: ModelParameters, df_dose_error: pd.DataFrame, plotted_err
     y_data.replace(cs.optimization_short_hands_dict, inplace=True)
 
     # Plot data
-    plt.figure(figsize=(cs.line_width / 1.25, 3))  # (0.5*cs.line_width, 2))
+    plt.figure(figsize=(cs.line_width, 2))
     ax = sns.boxplot(data=y_data, x='value', y='Dose_type', showfliers=False, linewidth=1,
                      width=0.65, order=cs.optimization_short_hands_dict.values())
     # Format and label plot
@@ -223,6 +230,7 @@ def plot_weight_norms(df_objective_data: pd.DataFrame, cs: ModelParameters):
         df_objective_data: weight and objective function data
         cs: model constants
     """
+    cs.reset_plot_fonts()
 
     # Prepare data to plot
     df_weights = df_objective_data['Weight']
@@ -292,6 +300,7 @@ def save_plot(cs: ModelParameters, dvh_error_label: str, legend_cols: [int, None
 
     # Get legend for plot
     if legend_cols:
+        cs.reset_plot_fonts()
         if ax:
             ax.legend(ncol=legend_cols, frameon=False, bbox_to_anchor=(-1, -1), borderaxespad=0)
             legend = ax.get_legend()
@@ -305,6 +314,6 @@ def save_plot(cs: ModelParameters, dvh_error_label: str, legend_cols: [int, None
         legend.remove()
 
     # Save full plot
-    plt.tight_layout(rect=(0.025, 0, 0.99, 1))
+    plt.tight_layout(rect=(0.02, 0, 1, 1))
     plt.savefig(f'{cs.results_dir}/{hyphenated_label}-plot.pdf')
     plt.show()

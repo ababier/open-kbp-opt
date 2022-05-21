@@ -77,11 +77,11 @@ class ModelParameters:
             'relative_max': 'MaxRel',
         }
 
-        self.dvh_metric_axis_dict = {'D_0.1_cc': 'D$_{0.1\mathrm{cc}}$',
+        self.dvh_metric_axis_dict = {'D_0.1_cc': 'D$_\mathrm{0.1cc}$',
                                      'mean': 'D$_\mathrm{mean}$',
-                                     'D_99': 'D$_{99}$',
-                                     'D_95': 'D$_{95}$',
-                                     'D_1': 'D$_1$'}
+                                     'D_99': 'D$_\mathrm{99}$',
+                                     'D_95': 'D$_\mathrm{95}$',
+                                     'D_1': 'D$_\mathrm{1}$'}
 
         self.structure_printing = {
             'SpinalCord': 'Spinal cord',
@@ -126,17 +126,24 @@ class ModelParameters:
                                    '(\'D_95\', \'PTV56\')', '(\'D_95\', \'PTV63\')', '(\'D_95\', \'PTV70\')']
 
     def _set_plot_fonts(self):
-        self.ticks_font_size = 12
-        self.legend_font_size = 12
-        self.label_font_size = 12
-        self.line_width = 8
+        self.ticks_font_size = 10
+        self.legend_font_size = 10
+        self.label_font_size = 10
+        self.line_width = 6.1759606299
 
         plt.rcParams.update({'axes.labelsize': self.label_font_size,
                              'xtick.labelsize': self.ticks_font_size,
                              'ytick.labelsize': self.ticks_font_size,
                              'legend.fontsize': self.legend_font_size,
-                             'axes.titlesize': self.label_font_size}
+                             'axes.titlesize': self.label_font_size,
+                             'font.family': 'serif',
+                             'font.serif': ['Times New Roman'],
+                             'mathtext.fontset': 'dejavuserif'
+                             }
                             )
+
+    def reset_plot_fonts(self):
+        self._set_plot_fonts()
 
     def make_optimization_directories(self, prediction_name: str) -> None:
         """
