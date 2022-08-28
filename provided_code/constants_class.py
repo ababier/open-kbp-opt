@@ -5,15 +5,12 @@ import pandas as pd
 
 
 class ModelParameters:
-
-    def __init__(self,
-                 # TODO: If data is outside of open-kbp-opt, change `parent_data_directory` to where data is stored.
-                 parent_data_directory: str = f'{os.getcwd()}/open-kbp-opt-data',
-                 # directory where everything is stored
-                 io_name: str = 'baseline'):
+    def __init__(self, io_name: str = "baseline"):
         """Define all the constant parameters for this project"""
 
-        self.primary_directory = parent_data_directory
+        # If data is outside of open-kbp-opt, change `parent_data_directory` to where data is stored.
+        self.primary_directory = f"{os.getcwd()}/open-kbp-opt-data"  # directory where everything is stored
+
         self._set_directories(io_name)
         self._set_plan_criteria()
         self._set_plot_fonts()
@@ -37,24 +34,26 @@ class ModelParameters:
         # Set patient parameters
         self.patient_shape = (128, 128, 128)
         self.rois = {
-            'oars': ['Brainstem', 'SpinalCord', 'RightParotid', 'LeftParotid',
-                     'Esophagus', 'Larynx', 'Mandible'],
-            'targets': ['PTV56', 'PTV63', 'PTV70']}
+            "oars": ["Brainstem", "SpinalCord", "RightParotid", "LeftParotid", "Esophagus", "Larynx", "Mandible"],
+            "targets": ["PTV56", "PTV63", "PTV70"],
+        }
 
         self.all_rois = self._get_all_rois()
         self.num_rois = len(self.all_rois)
-        self.plan_criteria_dict = pd.Series({
-            ('D_0.1_cc', 'Brainstem'): 50,
-            ('D_0.1_cc', 'SpinalCord'): 45,
-            ('D_0.1_cc', 'Mandible'): 73.5,
-            ('mean', 'RightParotid'): 26,
-            ('mean', 'LeftParotid'): 26,
-            ('mean', 'Esophagus'): 45,
-            ('mean', 'Larynx'): 45,
-            ('D_99', 'PTV56'): -53.2,
-            ('D_99', 'PTV63'): -59.85,
-            ('D_99', 'PTV70'): -66.5
-        })  # Set patient view shapes
+        self.plan_criteria_dict = pd.Series(
+            {
+                ("D_0.1_cc", "Brainstem"): 50,
+                ("D_0.1_cc", "SpinalCord"): 45,
+                ("D_0.1_cc", "Mandible"): 73.5,
+                ("mean", "RightParotid"): 26,
+                ("mean", "LeftParotid"): 26,
+                ("mean", "Esophagus"): 45,
+                ("mean", "Larynx"): 45,
+                ("D_99", "PTV56"): -53.2,  # negative sign used to communicate that higher values better than lower
+                ("D_99", "PTV63"): -59.85,  # negative sign used to communicate that higher values better than lower
+                ("D_99", "PTV70"): -66.5,  # negative sign used to communicate that higher values better than lower
+            }
+        )  # Set patient view shapes
         self.roi_series = pd.Series(dict((i, k) for k, v in self.rois.items() for i in v))
 
         self.dose_shape = (*self.patient_shape, 1)
@@ -70,51 +69,53 @@ class ModelParameters:
 
         # Dictionary for plots axis
         self.optimization_short_hands_dict = {
-            'Prediction': 'Prediction',
-            'absolute_mean': 'MeanAbs',
-            'absolute_max': 'MaxAbs',
-            'relative_mean': 'MeanRel',
-            'relative_max': 'MaxRel',
+            "Prediction": "Prediction",
+            "absolute_mean": "MeanAbs",
+            "absolute_max": "MaxAbs",
+            "relative_mean": "MeanRel",
+            "relative_max": "MaxRel",
         }
 
-        self.dvh_metric_axis_dict = {'D_0.1_cc': 'D$_\mathrm{0.1cc}$',
-                                     'mean': 'D$_\mathrm{mean}$',
-                                     'D_99': 'D$_\mathrm{99}$',
-                                     'D_95': 'D$_\mathrm{95}$',
-                                     'D_1': 'D$_\mathrm{1}$'}
+        self.dvh_metric_axis_dict = {
+            "D_0.1_cc": "D$_\mathrm{0.1cc}$",
+            "mean": "D$_\mathrm{mean}$",
+            "D_99": "D$_\mathrm{99}$",
+            "D_95": "D$_\mathrm{95}$",
+            "D_1": "D$_\mathrm{1}$",
+        }
 
         self.structure_printing = {
-            'SpinalCord': 'Spinal cord',
-            'RightParotid': 'Right parotid',
-            'LeftParotid': 'Left parotid',
-            'oars': 'OARs',
-            'targets': 'Targets',
-            'AllCriteria': 'All ROIs',
-            'opt': 'Optimization'
+            "SpinalCord": "Spinal cord",
+            "RightParotid": "Right parotid",
+            "LeftParotid": "Left parotid",
+            "oars": "OARs",
+            "targets": "Targets",
+            "AllCriteria": "All ROIs",
+            "opt": "Optimization",
         }
 
         self.rois_plotting_order = {
-            'oars': ['Brainstem', 'Spinal cord', 'Right parotid', 'Left parotid',
-                     'Esophagus', 'Larynx', 'Mandible'],
-            'targets': ['PTV56', 'PTV63', 'PTV70']}
+            "oars": ["Brainstem", "Spinal cord", "Right parotid", "Left parotid", "Esophagus", "Larynx", "Mandible"],
+            "targets": ["PTV56", "PTV63", "PTV70"],
+        }
 
     def _get_all_rois(self):
         return sum(map(list, self.rois.values()), [])
 
-    def _set_directories(self, io_name: str = 'baseline'):
+    def _set_directories(self, io_name: str = "baseline"):
         # Define directory where given data is stored
-        self.reference_data_dir = f'{self.primary_directory}/reference-plans'
-        self.prediction_dir = f'{self.primary_directory}/paper-predictions'
+        self.reference_data_dir = f"{self.primary_directory}/reference-plans"
+        self.prediction_dir = f"{self.primary_directory}/paper-predictions"
         # path where any data generated by this code (e.g., predictions, models) are stored
-        self.plans_dir = f'{self.primary_directory}/paper-plans'
-        self.optimized_plans_dir = f'{self.plans_dir}/{io_name}'
-        self.plan_dose_dir = f'{self.optimized_plans_dir}/plan-dose'
-        self.plan_fluence_dir = f'{self.optimized_plans_dir}/plan-fluence'
-        self.plan_gap_dir = f'{self.optimized_plans_dir}/plan-gap'
-        self.plan_weights_dir = f'{self.optimized_plans_dir}/plan-weights'
+        self.plans_dir = f"{self.primary_directory}/paper-plans"
+        self.optimized_plans_dir = f"{self.plans_dir}/{io_name}"
+        self.plan_dose_dir = f"{self.optimized_plans_dir}/plan-dose"
+        self.plan_fluence_dir = f"{self.optimized_plans_dir}/plan-fluence"
+        self.plan_gap_dir = f"{self.optimized_plans_dir}/plan-gap"
+        self.plan_weights_dir = f"{self.optimized_plans_dir}/plan-weights"
         # Directories for summarizing results
-        self.results_dir = f'{self.primary_directory}/results'
-        self.results_data_dir = f'{self.primary_directory}/results-data'
+        self.results_dir = f"{self.primary_directory}/results"
+        self.results_data_dir = f"{self.primary_directory}/results-data"
 
         # Initialize attribute names for prediction specific directories
         self.plan_dose_from_pred_dir = None
@@ -122,8 +123,14 @@ class ModelParameters:
         self.plan_gap_from_pred_dir = None
 
     def _set_plan_criteria(self):
-        self.dvh_columns_better = ['(\'D_99\', \'PTV56\')', '(\'D_99\', \'PTV63\')', '(\'D_99\', \'PTV70\')', \
-                                   '(\'D_95\', \'PTV56\')', '(\'D_95\', \'PTV63\')', '(\'D_95\', \'PTV70\')']
+        self.dvh_columns_better = [
+            "('D_99', 'PTV56')",
+            "('D_99', 'PTV63')",
+            "('D_99', 'PTV70')",
+            "('D_95', 'PTV56')",
+            "('D_95', 'PTV63')",
+            "('D_95', 'PTV70')",
+        ]
 
     def _set_plot_fonts(self):
         self.ticks_font_size = 10
@@ -131,16 +138,18 @@ class ModelParameters:
         self.label_font_size = 10
         self.line_width = 6.1759606299
 
-        plt.rcParams.update({'axes.labelsize': self.label_font_size,
-                             'xtick.labelsize': self.ticks_font_size,
-                             'ytick.labelsize': self.ticks_font_size,
-                             'legend.fontsize': self.legend_font_size,
-                             'axes.titlesize': self.label_font_size,
-                             'font.family': 'serif',
-                             'font.serif': ['Times New Roman'],
-                             'mathtext.fontset': 'dejavuserif'
-                             }
-                            )
+        plt.rcParams.update(
+            {
+                "axes.labelsize": self.label_font_size,
+                "xtick.labelsize": self.ticks_font_size,
+                "ytick.labelsize": self.ticks_font_size,
+                "legend.fontsize": self.legend_font_size,
+                "axes.titlesize": self.label_font_size,
+                "font.family": "serif",
+                "font.serif": ["Times New Roman"],
+                "mathtext.fontset": "dejavuserif",
+            }
+        )
 
     def reset_plot_fonts(self):
         self._set_plot_fonts()
@@ -172,10 +181,10 @@ class ModelParameters:
             self._set_directories(opt_name)
         self.opt_name = opt_name
         self.prediction_name = prediction_name
-        self.plan_dose_from_pred_dir = f'{self.plan_dose_dir}/{prediction_name}'
-        self.plan_fluence_from_pred_dir = f'{self.plan_fluence_dir}/{prediction_name}'
-        self.plan_gap_from_pred_dir = f'{self.plan_gap_dir}/{prediction_name}'
-        self.plan_weights_from_pred_dir = f'{self.plan_weights_dir}/{prediction_name}'
+        self.plan_dose_from_pred_dir = f"{self.plan_dose_dir}/{prediction_name}"
+        self.plan_fluence_from_pred_dir = f"{self.plan_fluence_dir}/{prediction_name}"
+        self.plan_gap_from_pred_dir = f"{self.plan_gap_dir}/{prediction_name}"
+        self.plan_weights_from_pred_dir = f"{self.plan_weights_dir}/{prediction_name}"
 
     def set_patient(self, patient_number: str) -> None:
         """Set the current patient number/id"""
@@ -183,7 +192,7 @@ class ModelParameters:
 
     def check_patient(self) -> bool:
         """Check if a plan has already been generated for the requested prediction, prediction and patient"""
-        return os.path.exists(f'{self.plan_fluence_from_pred_dir}/{self.patient_number}.csv')
+        return os.path.exists(f"{self.plan_fluence_from_pred_dir}/{self.patient_number}.csv")
 
     def set_directories_for_new_io(self, prediction_name: str, opt_name: str) -> None:
         """

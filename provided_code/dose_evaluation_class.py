@@ -28,16 +28,15 @@ class EvaluateDose:
         self.dose_score_vec = None
 
         # Set metrics to be evaluated
-        self.oar_eval_metrics = ['D_0.1_cc', 'mean']
-        self.tar_eval_metrics = ['D_99', 'D_95', 'D_1']
+        self.oar_eval_metrics = ["D_0.1_cc", "mean"]
+        self.tar_eval_metrics = ["D_99", "D_95", "D_1"]
 
         # Name metrics for data frame
-        self.oar_metrics = list(it_product(self.oar_eval_metrics, self.data_loader.rois['oars']))
-        self.target_metrics = list(it_product(self.tar_eval_metrics, self.data_loader.rois['targets']))
+        self.oar_metrics = list(it_product(self.oar_eval_metrics, self.data_loader.rois["oars"]))
+        self.target_metrics = list(it_product(self.tar_eval_metrics, self.data_loader.rois["targets"]))
 
         # Make data frame to store dose metrics and the difference data frame
-        self.metric_difference_df = pd.DataFrame(index=self.data_loader.patient_id_list,
-                                                 columns=[*self.oar_metrics, *self.target_metrics])
+        self.metric_difference_df = pd.DataFrame(index=self.data_loader.patient_id_list, columns=[*self.oar_metrics, *self.target_metrics])
         self.reference_dose_metric_df = self.metric_difference_df.copy()
         self.reference_criteria_df = self.metric_difference_df.copy()
         self.new_dose_metric_df = self.metric_difference_df.copy()
@@ -52,7 +51,7 @@ class EvaluateDose:
 
         # Only make calculations if data_loader is not empty
         if not self.data_loader.file_paths_list:
-            print('No patient information was given to calculate metrics')
+            print("No patient information was given to calculate metrics")
         else:
             # Change batch size to 1
             self.data_loader.batch_size = 1  # Loads data related to ground truth patient information
@@ -84,7 +83,7 @@ class EvaluateDose:
                 dose_score = self.dose_score_vec.mean()
                 return dvh_score, dose_score
             else:
-                print('No new dose provided. Metrics were only calculated for the provided dose.')
+                print("No new dose provided. Metrics were only calculated for the provided dose.")
 
     def get_patient_dose_tensor(self, data_loader):
         """Retrieves a flattened dose tensor from the input data_loader.
@@ -93,7 +92,7 @@ class EvaluateDose:
         """
         # Load the dose for the request patient
         dose_batch = data_loader.get_batch(patient_list=self.patient_list)
-        dose_key = [key for key in dose_batch.keys() if 'dose' in key.lower()][0]  # The name of the dose
+        dose_key = [key for key in dose_batch.keys() if "dose" in key.lower()][0]  # The name of the dose
         dose_tensor = dose_batch[dose_key][0]  # Dose tensor
         return dose_tensor.flatten()
 
@@ -103,14 +102,13 @@ class EvaluateDose:
         """
         # Load the batch of roi mask
         rois_batch = self.data_loader.get_batch(idx)
-        self.roi_mask = rois_batch['structure_masks'][0].astype(bool)
+        self.roi_mask = rois_batch["structure_masks"][0].astype(bool)
         # Save the patient list to keep track of the patient id
-        self.patient_list = rois_batch['patient_list']
+        self.patient_list = rois_batch["patient_list"]
         # Get voxel size
-        self.voxel_size = np.prod(rois_batch['voxel_dimensions'])
+        self.voxel_size = np.prod(rois_batch["voxel_dimensions"])
         # Get the possible dose mask
-        self.possible_dose_mask = rois_batch['possible_dose_mask']
-
+        self.possible_dose_mask = rois_batch["possible_dose_mask"]
 
     def calculate_metrics(self, metric_df, dose, merge_targets=False):
         """
@@ -121,45 +119,45 @@ class EvaluateDose:
         """
         # Prepare to iterate through all rois
         roi_exists = self.roi_mask.max(axis=(0, 1, 2))
-        voxels_in_tenth_of_cc = np.maximum(1, np.round(100/self.voxel_size))  #
+        voxels_in_tenth_of_cc = np.maximum(1, np.round(100 / self.voxel_size))  #
         for roi_idx, roi in enumerate(self.data_loader.full_roi_list):
             if roi_exists[roi_idx]:
-                if roi in self.data_loader.rois['targets'] and merge_targets:
+                if roi in self.data_loader.rois["targets"] and merge_targets:
                     roi_mask = self.roi_mask[:, :, :, roi_idx:].any(axis=-1)  # include higher dose PTVs
                     roi_mask = roi_mask.flatten()  # flatten mask for indexing
                 else:
                     roi_mask = self.roi_mask[:, :, :, roi_idx].flatten()
                 roi_dose = dose[roi_mask]
                 roi_size = len(roi_dose)
-                if roi in self.data_loader.rois['oars']:
-                    if 'D_0.1_cc' in self.oar_eval_metrics:
+                if roi in self.data_loader.rois["oars"]:
+                    if "D_0.1_cc" in self.oar_eval_metrics:
                         # Find the fractional volume in 0.1cc to evaluate percentile
-                        fractional_volume_to_evaluate = 100 - voxels_in_tenth_of_cc/roi_size * 100
+                        fractional_volume_to_evaluate = 100 - voxels_in_tenth_of_cc / roi_size * 100
                         metric_eval = np.percentile(roi_dose, fractional_volume_to_evaluate)
-                        metric_df.at[self.patient_list[0], ('D_0.1_cc', roi)] = metric_eval
-                    if 'mean' in self.oar_eval_metrics:
+                        metric_df.at[self.patient_list[0], ("D_0.1_cc", roi)] = metric_eval
+                    if "mean" in self.oar_eval_metrics:
                         metric_eval = roi_dose.mean()
-                        metric_df.at[self.patient_list[0], ('mean', roi)] = metric_eval
-                elif roi in self.data_loader.rois['targets']:
-                    if 'D_99' in self.tar_eval_metrics:
+                        metric_df.at[self.patient_list[0], ("mean", roi)] = metric_eval
+                elif roi in self.data_loader.rois["targets"]:
+                    if "D_99" in self.tar_eval_metrics:
                         metric_eval = np.percentile(roi_dose, 1)
-                        metric_df.at[self.patient_list[0], ('D_99', roi)] = metric_eval
-                    if 'D_95' in self.tar_eval_metrics:
+                        metric_df.at[self.patient_list[0], ("D_99", roi)] = metric_eval
+                    if "D_95" in self.tar_eval_metrics:
                         metric_eval = np.percentile(roi_dose, 5)
-                        metric_df.at[self.patient_list[0], ('D_95', roi)] = metric_eval
-                    if 'D_1' in self.tar_eval_metrics:
+                        metric_df.at[self.patient_list[0], ("D_95", roi)] = metric_eval
+                    if "D_1" in self.tar_eval_metrics:
                         metric_eval = np.percentile(roi_dose, 99)
-                        metric_df.at[self.patient_list[0], ('D_1', roi)] = metric_eval
+                        metric_df.at[self.patient_list[0], ("D_1", roi)] = metric_eval
 
         return metric_df
 
-    def melt_dvh_metrics(self, name, dose_metrics_att='new_dose_metric_df'):
+    def melt_dvh_metrics(self, name, dose_metrics_att="new_dose_metric_df"):
         named_dvh_error = getattr(self, dose_metrics_att).copy()
         for idx, col in enumerate(named_dvh_error.columns):
             named_dvh_error.rename(columns={col: (name, *col)}, inplace=True)
         dvh_metric_series = named_dvh_error.melt(ignore_index=False)
         dvh_metric_series_index = pd.MultiIndex.from_tuples(dvh_metric_series.variable)
         dvh_metric_series.set_index(dvh_metric_series_index, append=True, inplace=True)
-        dvh_metric_series.drop(columns=['variable'], inplace=True)
+        dvh_metric_series.drop(columns=["variable"], inplace=True)
 
         return dvh_metric_series.swaplevel(0, 1)

@@ -8,12 +8,9 @@ from provided_code.general_functions import get_paths, load_file
 class DataLoader:
     """Generates data for tensorflow"""
 
-    def __init__(self,
-                 file_paths_list: List[str],
-                 batch_size: int = 2,
-                 patient_shape: Tuple[int] = (128, 128, 128),
-                 mode_name: str = 'training_model'
-                 ):
+    def __init__(
+        self, file_paths_list: List[str], batch_size: int = 2, patient_shape: Tuple[int] = (128, 128, 128), mode_name: str = "training_model"
+    ):
 
         """
         Initialize the DataLoader class, which loads the data for OpenKBP
@@ -24,17 +21,18 @@ class DataLoader:
             mode_name: the data loader mode (changes type of data loaded
         """
         # Set file_loader specific attributes
-        self.rois = dict(oars=['Brainstem', 'SpinalCord', 'RightParotid', 'LeftParotid',
-                               'Esophagus', 'Larynx', 'Mandible'],
-                         targets=['PTV56', 'PTV63', 'PTV70'])
+        self.rois = dict(
+            oars=["Brainstem", "SpinalCord", "RightParotid", "LeftParotid", "Esophagus", "Larynx", "Mandible"], targets=["PTV56", "PTV63", "PTV70"]
+        )
         self.batch_size = batch_size  # Number of patients to load in a single batch
         self.patient_shape = patient_shape  # Shape of the patient
         self.indices = np.arange(len(file_paths_list))  # Indices of file paths
         self.file_paths_list = file_paths_list  # List of file paths
         self.full_roi_list = sum(map(list, self.rois.values()), [])  # make a list of all rois
         self.num_rois = len(self.full_roi_list)
-        self.patient_id_list = ['pt_{}'.format(k.split('/pt_')[1].split('/')[0].split('.csv')[0]) for k in
-                                self.file_paths_list]  # the list of patient ids with information in this data loader
+        self.patient_id_list = [
+            "pt_{}".format(k.split("/pt_")[1].split("/")[0].split(".csv")[0]) for k in self.file_paths_list
+        ]  # the list of patient ids with information in this data loader
 
         # Set files to be loaded
         self.required_files = None
@@ -54,7 +52,7 @@ class DataLoader:
 
         if patient_list is None:
             # Generate batch based on the provided index
-            indices = self.indices[index * self.batch_size:(index + 1) * self.batch_size]
+            indices = self.indices[index * self.batch_size : (index + 1) * self.batch_size]
         else:
             # Generate batch based on the request patients
             indices = self.patient_to_index(patient_list)
@@ -85,70 +83,75 @@ class DataLoader:
 
         self.mode_name = mode_name
 
-        if mode_name == 'training_model':
+        if mode_name == "training_model":
             # The mode that should be used when training or validing a model
-            self.required_files = {'dose': (self.patient_shape + (1,)),  # The shape of dose tensor
-                                   'ct': (self.patient_shape + (1,)),  # The shape of ct tensor
-                                   'structure_masks': (self.patient_shape + (self.num_rois,)),
-                                   # The shape of the structure mask tensor
-                                   'possible_dose_mask': (self.patient_shape + (1,)),
-                                   # Mask of where dose can be deposited
-                                   'voxel_dimensions': (3,)
-                                   # Physical dimensions (in mm) of voxels
-                                   }
-        elif mode_name == 'dose_prediction':
+            self.required_files = {
+                "dose": (self.patient_shape + (1,)),  # The shape of dose tensor
+                "ct": (self.patient_shape + (1,)),  # The shape of ct tensor
+                "structure_masks": (self.patient_shape + (self.num_rois,)),
+                # The shape of the structure mask tensor
+                "possible_dose_mask": (self.patient_shape + (1,)),
+                # Mask of where dose can be deposited
+                "voxel_dimensions": (3,)
+                # Physical dimensions (in mm) of voxels
+            }
+        elif mode_name == "dose_prediction":
             # The mode that should be used when training or validing a model
-            self.required_files = {'ct': (self.patient_shape + (1,)),  # The shape of ct tensor
-                                   'structure_masks': (self.patient_shape + (self.num_rois,)),
-                                   # The shape of the structure mask tensor
-                                   'possible_dose_mask': (self.patient_shape + (1,)),
-                                   # Mask of where dose can be deposited
-                                   'voxel_dimensions': (3,)  # Physical dimensions (in mm) of voxels
-                                   }
+            self.required_files = {
+                "ct": (self.patient_shape + (1,)),  # The shape of ct tensor
+                "structure_masks": (self.patient_shape + (self.num_rois,)),
+                # The shape of the structure mask tensor
+                "possible_dose_mask": (self.patient_shape + (1,)),
+                # Mask of where dose can be deposited
+                "voxel_dimensions": (3,),  # Physical dimensions (in mm) of voxels
+            }
             self.batch_size = 1
-            print('Warning: Batch size has been changed to 1 for dose prediction mode')
+            print("Warning: Batch size has been changed to 1 for dose prediction mode")
 
-        elif mode_name == 'predicted_dose':
+        elif mode_name == "predicted_dose":
             # This mode loads a single feature (e.g., dose, masks for all structures)
             self.required_files = {mode_name: (self.patient_shape + (1,))}  # The shape of a dose tensor
             self.batch_size = 1
-            print('Warning: Batch size has been changed to 1 for dose prediction mode')
+            print("Warning: Batch size has been changed to 1 for dose prediction mode")
 
-        elif mode_name == 'plan_gap':
+        elif mode_name == "plan_gap":
             # This mode loads a single feature (e.g., dose, masks for all structures)
-            self.required_files = {'plan_gap': ()}  # The shape of a dose tensor
+            self.required_files = {"plan_gap": ()}  # The shape of a dose tensor
             self.batch_size = 1
-            print('Warning: Batch size has been changed to 1 for dose prediction mode')
+            print("Warning: Batch size has been changed to 1 for dose prediction mode")
 
-        elif mode_name == 'plan_weights':
+        elif mode_name == "plan_weights":
             # This mode loads a single feature (e.g., dose, masks for all structures)
-            self.required_files = {'plan_weights': ()}  # The shape of a dose tensor
+            self.required_files = {"plan_weights": ()}  # The shape of a dose tensor
             self.batch_size = 1
-            print('Warning: Batch size has been changed to 1 for dose prediction mode')
+            print("Warning: Batch size has been changed to 1 for dose prediction mode")
 
-        elif mode_name == 'evaluation':
+        elif mode_name == "evaluation":
             # The mode that should be used evaluate the quality of predictions
-            self.required_files = {'dose': (self.patient_shape + (1,)),  # The shape of dose tensor
-                                   'structure_masks': (self.patient_shape + (self.num_rois,)),
-                                   'voxel_dimensions': (3,),  # Physical dimensions (in mm) of voxels
-                                   'possible_dose_mask': (self.patient_shape + (1,)),
-                                   }
+            self.required_files = {
+                "dose": (self.patient_shape + (1,)),  # The shape of dose tensor
+                "structure_masks": (self.patient_shape + (self.num_rois,)),
+                "voxel_dimensions": (3,),  # Physical dimensions (in mm) of voxels
+                "possible_dose_mask": (self.patient_shape + (1,)),
+            }
             self.batch_size = 1
-            print('Warning: Batch size has been changed to 1 for evaluation mode')
+            print("Warning: Batch size has been changed to 1 for evaluation mode")
 
-        elif mode_name == 'optimization':
+        elif mode_name == "optimization":
             # The mode that should be used to run the optimization
-            self.required_files = {'structure_masks': (self.patient_shape + (self.num_rois,)),
-                                   'dij': (),
-                                   'beamlet_indices': (),
-                                   'voxel_dimensions': (3,)  # Physical dimensions (in mm) of voxels
-                                   }
+            self.required_files = {
+                "structure_masks": (self.patient_shape + (self.num_rois,)),
+                "dij": (),
+                "beamlet_indices": (),
+                "voxel_dimensions": (3,),  # Physical dimensions (in mm) of voxels
+            }
             self.batch_size = 1
-            print('Warning: Batch size has been changed to 1 for evaluation mode')
+            print("Warning: Batch size has been changed to 1 for evaluation mode")
 
         else:
-            print('Mode does not exist. Please re-run with either \'training_model\', \'prediction\', '
-                  '\'predicted_dose\', \'evaluation\', or \'optimization\'')
+            print(
+                "Mode does not exist. Please re-run with either 'training_model', 'prediction', " "'predicted_dose', 'evaluation', or 'optimization'"
+            )
 
     def number_of_batches(self) -> int:
         """
@@ -186,7 +189,7 @@ class DataLoader:
         for i, pat_path in enumerate(file_paths_to_load):
             # Get patient ID and location of processed data to load
             patient_path_list.append(pat_path)
-            pat_id = pat_path.split('/')[-1].split('.')[0]
+            pat_id = pat_path.split("/")[-1].split(".")[0]
             patient_list.append(pat_id)
             # Make a dictionary of all the tensors
             loaded_data_dict = self.load_and_shape_data(pat_path)
@@ -195,15 +198,17 @@ class DataLoader:
                 if self.required_files[key] == ():  # Files with no predefined shape loaded accordingly
                     tf_data[key][i] = loaded_data_dict[key]
                 else:
-                    tf_data[key][i,] = loaded_data_dict[key]
+                    tf_data[key][
+                        i,
+                    ] = loaded_data_dict[key]
 
         # Add two keys to the tf_data dictionary to track patient information
-        tf_data['patient_list'] = patient_list
-        tf_data['patient_path_list'] = patient_path_list
+        tf_data["patient_list"] = patient_list
+        tf_data["patient_path_list"] = patient_path_list
 
         return tf_data
 
-    def load_and_shape_data(self, path_to_load:str) -> dict:
+    def load_and_shape_data(self, path_to_load: str) -> dict:
         """
         Reshapes data that is stored as vectors into matrices
         Args:
@@ -214,13 +219,13 @@ class DataLoader:
         """
         # Initialize the dictionary for the loaded files
         loaded_file = {}
-        if '.csv' in path_to_load:
+        if ".csv" in path_to_load:
             loaded_file[self.mode_name] = load_file(path_to_load)
         else:
-            files_to_load = get_paths(path_to_load, ext='')
+            files_to_load = get_paths(path_to_load, ext="")
             # Load files and get names without file extension or directory
             for f in files_to_load:
-                f_name = f.split('/')[-1].split('.')[0]
+                f_name = f.split("/")[-1].split(".")[0]
                 if f_name in self.required_files or f_name in self.full_roi_list:
                     loaded_file[f_name] = load_file(f)
 
@@ -234,18 +239,18 @@ class DataLoader:
             if self.required_files[key] is ():
                 # Load files without shape as they are stored
                 shaped_data[key] = loaded_file[key]
-            elif key == 'structure_masks':
+            elif key == "structure_masks":
                 # Convert dictionary of masks into a tensor (necessary for tensorflow)
                 for roi_idx, roi in enumerate(self.full_roi_list):
                     if roi in loaded_file.keys():
                         np.put(shaped_data[key], self.num_rois * loaded_file[roi] + roi_idx, int(1))
-            elif key == 'possible_dose_mask':
+            elif key == "possible_dose_mask":
                 np.put(shaped_data[key], loaded_file[key], int(1))
-            elif key == 'voxel_dimensions':
+            elif key == "voxel_dimensions":
                 shaped_data[key] = loaded_file[key]
-            elif key == 'plan_weights':
+            elif key == "plan_weights":
                 shaped_data[key] = loaded_file[key]
-            elif loaded_file[key]['data'].size > 0:  # Files with shape
-                np.put(shaped_data[key], loaded_file[key]['indices'], loaded_file[key]['data'])
+            elif loaded_file[key]["data"].size > 0:  # Files with shape
+                np.put(shaped_data[key], loaded_file[key]["indices"], loaded_file[key]["data"])
 
         return shaped_data
