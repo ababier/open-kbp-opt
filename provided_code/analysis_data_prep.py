@@ -4,7 +4,7 @@ from typing import Dict, List
 
 import numpy as np
 import pandas as pd
-from scipy.stats import spearmanr, wilcoxon
+from scipy.stats import spearmanr
 
 from provided_code.constants_class import ModelParameters
 from provided_code.data_loader import DataLoader
