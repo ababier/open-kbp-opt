@@ -1,9 +1,5 @@
-wget --no-check-certificate -r https://onedrive.live.com/download?cid=2150C5A213E729E3&resid=2150C5A213E729E3%21111&authkey=ADPFvxMczc2uPy8 -O core-data.zip
+curl -L -o core-data.zip 'https://onedrive.live.com/download?cid=2150C5A213E729E3&resid=2150C5A213E729E3%21111&authkey=ADPFvxMczc2uPy8'
 
 unzip core-data.zip
 
 rm core-data.zip
-
-
-
-

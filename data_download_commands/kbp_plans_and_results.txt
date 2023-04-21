@@ -1,4 +1,4 @@
-wget --no-check-certificate -r https://onedrive.live.com/download?cid=2150C5A213E729E3&resid=2150C5A213E729E3%21112&authkey=AOZCC_VhkeboAss -O experiments-data.zip
+curl -L -o experiments-data.zip 'https://onedrive.live.com/download?cid=2150C5A213E729E3&resid=2150C5A213E729E3%21112&authkey=AOZCC_VhkeboAss'
 
 unzip experiments-data.zip
 
