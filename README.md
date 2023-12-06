@@ -9,7 +9,6 @@ The _open-kbp-opt_ repository is part of the OpenKBP-Opt project, which is an ex
 
 Please use our paper as the citation for this dataset or code repository:
 
-CitationPermalink
 A. Babier, R. Mahmood, B. Zhang, V.G.L. Alves, A.M. Barragán-Montero, J. Beaudry, C.E. Cardenas, Y. Chang, Z. Chen, J. Chun, K. Diaz, H.D. Eraso, E. Faustmann, S. Gaj, S. Gay, M. Gronberg, B. Guo, J. He, G. Heilemann, S. Hira, Y. Huang, F. Ji, D. Jiang, J.C.J. Giraldo, H. Lee, J. Lian, S. Liu, K. Liu, J. Marrugo, K. Miki, K. Nakamura, T. Netherton, D. Nguyen, H. Nourzadeh, A.F.I. Osman, Z. Peng, J.D.Q. Muñoz, C. Ramsl, D.J. Rhee, J.D. Rodriguez, H. Shan, J.V. Siebers, M.H. Soomro, K. Sun, A.U. Hoyos, C. Valderrama, R. Verbeek, E. Wang, S. Willems, Q. Wu, X. Xu, S. Yang, L. Yuan, S. Zhu, L. Zimmermann, K.L. Moore, T.G. Purdie, A.L. McNiven, T.C.Y. Chan, “[OpenKBP-Opt: An international and reproducible evaluation of 76 knowledge-based planning pipelines](https://iopscience.iop.org/article/10.1088/1361-6560/ac8044),” Physics in Medicine and Biology, Vol. 67, pp. 185012, 2022.
 
 
