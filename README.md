@@ -106,15 +106,11 @@ open-kbp-opt-data
     pip3 install -r requirements.txt
     ```
 
-3. Download the data for _reference-plans_ and _paper-predictions_ directories (10.19 GB) from our [OneDrive](https://onedrive.live.com/download?cid=2150C5A213E729E3&resid=2150C5A213E729E3%21111&authkey=ADPFvxMczc2uPy8) **or** via the command below 
-   ```
-   sh data_download_commands/patients_and_predictions.txt
-   ```
+3. Download the data for _reference-plans_ and _paper-predictions_ directories (10.19 GB) from our [OneDrive](https://1drv.ms/u/c/2150c5a213e729e3/EeMp5xOixVAggCFvAAAAAAABEDPNyGWc32_OuGeTHUFZkw?e=x3V3fq). 
    
-4. __Optional__:  Download the data for _paper-plans_, _results-data_, and _results_ directories (13.08 GB) from our [OneDrive](https://onedrive.live.com/download?cid=2150C5A213E729E3&resid=2150C5A213E729E3%21112&authkey=AOZCC_VhkeboAss) **or** via the command below 
-   ```
-   sh data_download_commands/kbp_plans_and_results.txt
-   ```
+4. __Optional__:  Download the data for _paper-plans_, _results-data_, and _results_ directories (13.08 GB) from our [OneDrive](https://1drv.ms/u/c/2150c5a213e729e3/EeMp5xOixVAggCFwAAAAAAABgPUYh9eHaIT0pv-w-8yF6A?e=2QDrwB).
+
+5. Unzip all the downloaded data, and add it to a to a folder called `open-kbp-opt-data` in the project directory. The location and name of `open-kbp-opt-data` can be changed on line 12 of [constants_class.py](provided_code%2Fconstants_class.py).
 
 ## Running the code
 
